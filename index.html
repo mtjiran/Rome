@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itinerary Rome 2026</title>
+    <style>
+        :root {
+            --primary-color: #8B1E0B; /* Romeinse rode tint */
+            --bg-color: #f9f7f1;
+            --text-color: #333;
+            --card-bg: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .day-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2.5rem;
+            padding: 2rem;
+            border-left: 6px solid var(--primary-color);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .day-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .day-header {
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .event {
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid #ddd;
+        }
+
+        .event:last-child {
+            margin-bottom: 0;
+        }
+
+        .time-badge {
+            display: inline-block;
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: #2c3e50;
+        }
+
+        .event-desc {
+            font-size: 0.95rem;
+            color: #555;
+            margin: 0;
+        }
+
+        .info-box {
+            background-color: #e8f4f8;
+            border-left: 4px solid #17a2b8;
+            padding: 0.8rem;
+            margin-top: 0.5rem;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
+        }
+
+        .alert-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 0.8rem;
+            margin-top: 0.5rem;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
+        }
+
+        ul.checklist {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+
+        ul.checklist li::before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        ul.checklist li {
+            padding-left: 1em;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            word-break: break-all;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .day-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .day-header span {
+                margin-top: 0.5rem;
+                font-size: 1rem;
+                color: #666;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Rome 🏛️</h1>
+        <div class="subtitle">Reisplanning: 29 april - 5 mei 2026</div>
+    </header>
+
+    <div class="container">
+
+        <!-- Dag 1 -->
+        <div class="day-card">
+            <h2 class="day-header">Woensdag 29 april <span>Reisdag & Aankomst</span></h2>
+            
+            <div class="event">
+                <div class="time-badge">16:25 - 18:00</div>
+                <div class="event-title">Aankomst en Check-in</div>
+                <div class="event-desc">
+                    Aankomst op de luchthaven. Met de <strong>Leonardo Express</strong> naar het centrum.
+                    <div class="info-box">
+                        <strong>Info:</strong> De Leonardo Express is een directe treinverbinding tussen luchthaven Fiumicino en treinstation Roma Termini. De rit duurt 32 minuten en vertrekt elke 15 minuten.
+                    </div>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="time-badge">Avond</div>
+                <div class="event-title">Rondje Centrum + Diner</div>
+                <ul class="checklist">
+                    <li><strong>Spaanse Trappen:</strong> Prachtig in de avond. Let op: het is tegenwoordig verboden om op de trappen te zitten.</li>
+                    <li><strong>Trevi Fontein:</strong> Gooi een muntje over je linkerschouder met je rechterhand om zeker te zijn van een terugkeer naar Rome!</li>
+                    <li><strong>Pantheon:</strong> 
+                        <div class="alert-box"><strong>Reserveren?</strong> Ja! Sinds juli 2023 heb je een betaald ticket (€5) nodig om het Pantheon te bezoeken. Op weekenddagen en feestdagen is vooraf online reserveren sterk aanbevolen om lange rijen te voorkomen. 's Avonds is het gebouw vaak van buiten prachtig verlicht.</div>
+                    </li>
+                    <li><strong>Piazza Navona:</strong> Beroemd om Bernini's spectaculaire Vierstromenfontein. Levendig plein vol kunstenaars.</li>
+                    <li><strong>Schildpadfontein (Fontana delle Tartarughe):</strong> Een verborgen juweeltje in de schilderachtige Joodse wijk (Ghetto). Een van de charmantste fonteinen uit de Renaissance.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Dag 2 -->
+        <div class="day-card">
+            <h2 class="day-header">Donderdag 30 april <span>Vaticaanstad</span></h2>
+            
+            <div class="event">
+                <div class="time-badge">09:00</div>
+                <div class="event-title">Vaticaanse Musea</div>
+                <div class="event-desc">
+                    Een van de grootste kunstcollecties ter wereld, eindigend in de Sixtijnse Kapel met het plafond van Michelangelo.
+                    <div class="info-box"><strong>Tip:</strong> Zorg voor kleding die schouders en knieën bedekt, anders kan de toegang geweigerd worden.</div>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="time-badge">12:45 aanwezig / 13:00 start</div>
+                <div class="event-title">Sint-Pietersbasiliek</div>
+                <div class="event-desc">
+                    Bezoek aan de grootste en belangrijkste kerk van het katholicisme. Je kunt hier (optioneel) de koepel beklimmen voor een weids uitzicht over het Sint-Pietersplein en Rome.
+                </div>
+            </div>
+        </div>
+
+        <!-- Dag 3 -->
+        <div class="day-card">
+            <h2 class="day-header">Vrijdag 1 mei <span>Centrum</span></h2>
+            
+            <div class="alert-box" style="margin-bottom: 1.5rem;">
+                <strong>Let op - Feestdag:</strong> 1 mei is de Dag van de Arbeid (Primo Maggio) in Italië. Veel winkels en sommige musea kunnen gesloten zijn of aangepaste openingstijden hebben. Ook is er traditioneel een groot en druk gratis concert op het Piazza di San Giovanni in Laterano.
+            </div>
+
+            <div class="event">
+                <div class="time-badge">Overdag</div>
+                <div class="event-title">Palatijn / Circus Maximus / Aventijn</div>
+                <ul class="checklist">
+                    <li><strong>Palatijn:</strong> De heuvel waar Rome is gesticht en waar de keizers hun enorme paleizen bouwden. (Check openingstijden i.v.m. de feestdag).</li>
+                    <li><strong>Circus Maximus:</strong> De voormalige renbaan voor strijdwagens, gelegen in de vallei tussen de Palatijn en de Aventijn.</li>
+                    <li><strong>Aventijn:</strong> Een rustige, groene heuvel. Bezoek hier zeker de <em>Sinaasappeltuin (Giardino degli Aranci)</em> voor een prachtig uitzicht over de stad, en kijk door het beroemde <em>Sleutelgat van de Maltezer Orde (Buco della serratura)</em> waar je de koepel van de Sint-Pieter perfect ingekaderd ziet.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Dag 4 -->
+        <div class="day-card">
+            <h2 class="day-header">Zaterdag 2 mei <span>Oude Rome</span></h2>
+            
+            <div class="event">
+                <div class="time-badge">13:15 aanwezig / 13:45 start</div>
+                <div class="event-title">Colosseum / Forum Romanum / Palatijn</div>
+                <div class="event-desc">
+                    Het absolute hart van het antieke Rome.
+                    <div class="info-box">
+                        Het ticket voor het Colosseum is een combinatieticket met het Forum Romanum (het oude politieke en commerciële centrum) en de Palatijnse heuvel. Omdat je gisteren ook de Palatijn gepland had staan, kun je deze middag volledig focussen op het amfitheater en het Forum. Zorg voor comfortabele schoenen (ongelijke oude stenen).
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dag 5 -->
+        <div class="day-card">
+            <h2 class="day-header">Zondag 3 mei <span>Actief en Historie</span></h2>
+            
+            <div class="event">
+                <div class="time-badge">Sessie</div>
+                <div class="event-title">Gladiator Training</div>
+                <div class="event-desc">
+                    Interactieve ervaring bij de Gladiator School. <br>
+                    <a href="https://www.getyourguide.com/rome-l33/gladiator-school-in-rome-for-kids-and-adults-t34663?cmp=a12eefb0f97546398fc1d1fc0-361131&partner_id=0JJQDRO&partner_visitor_id=mamalovesrome.com&placement=content-middle&_pc=1,4&date_from=2026-05-03" target="_blank">Bekijk de reservering hier</a>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="time-badge">Middag</div>
+                <div class="event-title">Via Appia / Catacomben / Fietstour</div>
+                <div class="event-desc">
+                    De Via Appia Antica is een van de oudste toegangswegen naar Rome.
+                    <div class="info-box"><strong>Tip:</strong> Zondag is de absolute topdag hiervoor! De Via Appia is dan afgesloten voor autoverkeer, waardoor het een perfecte, veilige route is om te fietsen langs de eeuwenoude ruïnes en de ondergrondse begraafplaatsen (Catacomben van San Callisto of San Sebastiano).</div>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="time-badge">Namiddag / Avond</div>
+                <div class="event-title">Villa Borghese & Mond van de Waarheid</div>
+                <ul class="checklist">
+                    <li><strong>Mond van de waarheid (Bocca della Verità):</strong> Een enorm marmeren masker. De legende zegt dat het je hand afbijt als je een leugenaar bent. Reken op een rij voor de foto. (Locatie: portiek van de kerk Santa Maria in Cosmedin - let op de sluitingstijd rond 17:50).</li>
+                    <li><strong>Villa Borghese:</strong> Het beroemdste park van Rome. Huur een roeibootje, wandel rond of geniet vanaf het <em>Terrazza del Pincio</em> van een spectaculaire zonsondergang over de stad.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Dag 6 -->
+        <div class="day-card">
+            <h2 class="day-header">Maandag 4 mei <span>Pompeï en Vesuvius</span></h2>
+            
+            <div class="event">
+                <div class="time-badge">07:30</div>
+                <div class="event-title">Dagtocht vanuit Rome</div>
+                <div class="event-desc">
+                    Verzamelen op <strong>Piazza del Popolo</strong> voor vertrek.
+                    <div class="info-box">
+                        Dit is een lange, maar zeer indrukwekkende dag. Je reist zuidwaarts naar de regio Campanië. Je bezoekt de vulkaan Vesuvius (een flinke klim naar de krater, dus neem goede schoenen mee) en de uitgestrekte ruïnes van de stad Pompeï, die in 79 n.Chr. onder de as werd bedolven. Busreis duurt ca. 3 uur per enkele reis.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dag 7 -->
+        <div class="day-card">
+            <h2 class="day-header">Dinsdag 5 mei <span>Reisdag</span></h2>
+            
+            <div class="event">
+                <div class="time-badge">10:35</div>
+                <div class="event-title">Vertrek</div>
+                <div class="event-desc">
+                    Vlucht vanaf het vliegveld. Zorg dat je ruim op tijd bent. Arrivederci Roma!
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
