@@ -1,570 +1,1348 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Itinerary Rome 2026</title>
-    <style>
-        :root {
-            --primary-color: #8B1E0B; /* Romeinse rode tint */
-            --bg-color: #f9f7f1;
-            --text-color: #333;
-            --card-bg: #ffffff;
-            --tour-guide-bg: #fcf8e3;
-            --tour-guide-border: #f0ad4e;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rome 2026 | Reisplanning</title>
 
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 3rem 1rem;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
+  <style>
+    :root {
+      --red: #8B1E0B;
+      --dark-red: #5F1306;
+      --terracotta: #C56A3A;
+      --sand: #F7EFE3;
+      --cream: #FFF9F0;
+      --white: #FFFFFF;
+      --text: #2D2420;
+      --muted: #6E625C;
+      --line: #E5D6C3;
+      --green: #587B58;
+      --shadow: 0 10px 26px rgba(45, 36, 32, 0.12);
+      --radius: 18px;
+    }
 
-        h1 {
-            margin: 0;
-            font-size: 2.8rem;
-            letter-spacing: 2px;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        .subtitle {
-            font-size: 1.2rem;
-            font-weight: 300;
-            opacity: 0.9;
-            margin-top: 0.5rem;
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 1rem;
-        }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top left, rgba(197, 106, 58, 0.2), transparent 30rem),
+        linear-gradient(180deg, var(--sand), #FDF7EE 50%, #F3E5D2);
+      color: var(--text);
+      line-height: 1.55;
+    }
 
-        .day-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 2.5rem;
-            padding: 2rem;
-            border-left: 6px solid var(--primary-color);
-            transition: transform 0.2s ease-in-out;
-        }
+    a {
+      color: var(--red);
+      font-weight: bold;
+      text-decoration: none;
+    }
 
-        .day-card:hover {
-            transform: translateY(-3px);
-        }
+    a:hover {
+      text-decoration: underline;
+    }
 
-        .day-header {
-            color: var(--primary-color);
-            font-size: 1.6rem;
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 0.8rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 18px;
+    }
 
-        .event {
-            margin-bottom: 2.5rem;
-            padding-left: 1rem;
-            border-left: 2px solid #ddd;
-        }
+    .hero {
+      background:
+        linear-gradient(135deg, rgba(139, 30, 11, 0.95), rgba(95, 19, 6, 0.92)),
+        url("https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1600&q=80");
+      background-size: cover;
+      background-position: center;
+      color: white;
+      border-radius: 28px;
+      padding: 36px 24px;
+      margin: 10px 0 20px;
+      box-shadow: var(--shadow);
+    }
 
-        .event:last-child {
-            margin-bottom: 0;
-        }
+    .eyebrow {
+      margin: 0 0 8px;
+      font-family: Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: .78rem;
+      opacity: .9;
+    }
 
-        .time-badge {
-            display: inline-block;
-            background-color: #e9ecef;
-            color: #495057;
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
+    h1 {
+      font-size: clamp(2.4rem, 8vw, 4.8rem);
+      line-height: .95;
+      margin: 0 0 12px;
+      letter-spacing: -.04em;
+    }
 
-        .event-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-            color: #2c3e50;
-        }
+    .hero p:last-child {
+      max-width: 760px;
+      margin: 0;
+      font-size: 1.08rem;
+    }
 
-        .event-desc {
-            font-size: 0.95rem;
-            color: #555;
-            margin: 0;
-        }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin: 0 -18px 20px;
+      padding: 10px 18px;
+      background: rgba(247, 239, 227, .9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
 
-        .info-box {
-            background-color: #e8f4f8;
-            border-left: 4px solid #17a2b8;
-            padding: 0.8rem;
-            margin-top: 0.5rem;
-            border-radius: 0 4px 4px 0;
-            font-size: 0.9rem;
-        }
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
 
-        .alert-box {
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 0.8rem;
-            margin-top: 0.5rem;
-            border-radius: 0 4px 4px 0;
-            font-size: 0.9rem;
-        }
+    .nav a {
+      flex: 0 0 auto;
+      background: white;
+      border: 1px solid var(--line);
+      color: var(--red);
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-family: Arial, sans-serif;
+      font-size: .9rem;
+      box-shadow: 0 4px 14px rgba(45, 36, 32, .06);
+    }
 
-        ul.checklist {
-            list-style-type: none;
-            padding-left: 0;
-            margin-top: 0.5rem;
-        }
+    .section-title {
+      margin: 28px 0 14px;
+    }
 
-        ul.checklist li::before {
-            content: "•";
-            color: var(--primary-color);
-            font-weight: bold;
-            display: inline-block;
-            width: 1em;
-            margin-left: -1em;
-        }
+    .section-title h2 {
+      margin: 0;
+      color: var(--dark-red);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+    }
 
-        ul.checklist li {
-            padding-left: 1em;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            color: #555;
-        }
+    .section-title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: .95rem;
+    }
 
-        a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-            word-break: break-all;
-        }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(150px, 1fr));
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
 
-        a:hover {
-            text-decoration: underline;
-        }
+    .preview-card {
+      background: rgba(255,255,255,.9);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      min-height: 165px;
+      box-shadow: 0 8px 22px rgba(45, 36, 32, .08);
+    }
 
-        /* --- NIEUWE STYLES VOOR TOUR GUIDE & MAPS --- */
-        .btn-tour-guide {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.6rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-top: 1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: background-color 0.2s;
-        }
+    .preview-card strong {
+      display: block;
+      color: var(--red);
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
 
-        .btn-tour-guide:hover {
-            background-color: #6a1708;
-        }
+    .preview-card span {
+      display: block;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: .82rem;
+      margin-bottom: 9px;
+    }
 
-        .tour-guide-content {
-            display: none; /* Standaard verborgen */
-            background-color: var(--tour-guide-bg);
-            border-left: 4px solid var(--tour-guide-border);
-            padding: 1rem 1.2rem;
-            margin-top: 0.5rem;
-            border-radius: 0 4px 4px 0;
-            font-size: 0.95rem;
-            color: #5a4b31;
-            line-height: 1.5;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
+    .preview-card ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: .94rem;
+    }
 
-        .tour-guide-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease-in-out;
-        }
+    .day {
+      scroll-margin-top: 80px;
+      background: rgba(255,255,255,.86);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 18px;
+      margin: 20px 0;
+      box-shadow: var(--shadow);
+    }
 
-        .tour-guide-title {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #8a6d3b;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+    .day-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: start;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+    }
 
-        .maps-preview {
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #ddd;
-        }
+    .day-header h2 {
+      margin: 0;
+      color: var(--dark-red);
+      font-size: clamp(1.55rem, 4vw, 2.25rem);
+      line-height: 1.05;
+    }
 
-        .maps-link {
-            display: inline-block;
-            margin-top: 0.3rem;
-            font-size: 0.9rem;
-            color: #1a73e8; /* Google maps blue */
-            text-decoration: none;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
+    .meta {
+      margin-top: 6px;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+    }
 
-        .maps-link::before {
-            content: "📍 ";
-        }
+    .badge {
+      background: var(--cream);
+      border: 1px solid var(--line);
+      color: var(--red);
+      border-radius: 999px;
+      padding: 8px 11px;
+      font-family: Arial, sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
 
-        .maps-link:hover {
-            text-decoration: underline;
-            color: #1152a8;
-        }
+    .route-note {
+      background: #FBF4E9;
+      border-left: 5px solid var(--terracotta);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin: 12px 0 16px;
+      font-family: Arial, sans-serif;
+      color: #4C403A;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .activities {
+      display: grid;
+      gap: 12px;
+    }
 
-        @media (max-width: 600px) {
-            .day-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .day-header span {
-                margin-top: 0.5rem;
-                font-size: 1rem;
-                color: #666;
-            }
-        }
-    </style>
+    details {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(45, 36, 32, .06);
+    }
+
+    details[open] {
+      border-color: rgba(139, 30, 11, .35);
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 15px 16px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .time {
+      background: var(--red);
+      color: white;
+      border-radius: 12px;
+      padding: 7px 9px;
+      font-weight: 800;
+      font-size: .86rem;
+      min-width: 58px;
+      text-align: center;
+    }
+
+    .activity-title strong {
+      display: block;
+      color: var(--text);
+      font-size: 1.02rem;
+    }
+
+    .activity-title span {
+      display: block;
+      color: var(--muted);
+      font-size: .88rem;
+      margin-top: 1px;
+    }
+
+    .chevron {
+      color: var(--red);
+      font-size: 1.25rem;
+      transition: transform .18s ease;
+    }
+
+    details[open] .chevron {
+      transform: rotate(180deg);
+    }
+
+    .activity-body {
+      padding: 0 16px 16px 86px;
+      border-top: 1px solid #F0E5D7;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      margin-top: 14px;
+    }
+
+    h4 {
+      margin: 0 0 6px;
+      color: var(--dark-red);
+      font-family: Arial, sans-serif;
+      font-size: 1rem;
+    }
+
+    .info-grid p,
+    .info-grid li {
+      font-size: .97rem;
+    }
+
+    .info-grid ul {
+      margin: 6px 0 0;
+      padding-left: 18px;
+    }
+
+    .maps {
+      background: #FAF4EA;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      font-family: Arial, sans-serif;
+    }
+
+    .maps a {
+      display: block;
+      margin: 7px 0;
+    }
+
+    .tip {
+      background: #F6FAF3;
+      border: 1px solid #D8E7D2;
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 12px;
+      font-family: Arial, sans-serif;
+    }
+
+    .tip strong {
+      color: var(--green);
+    }
+
+    footer {
+      color: var(--muted);
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: .9rem;
+      padding: 28px 0 42px;
+    }
+
+    .top-button {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 30;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--red);
+      color: white;
+      box-shadow: var(--shadow);
+      border: 2px solid rgba(255,255,255,.7);
+      font-family: Arial, sans-serif;
+      font-weight: 900;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 12px;
+      }
+
+      .hero {
+        border-radius: 22px;
+        padding: 28px 18px;
+      }
+
+      .nav {
+        margin: 0 -12px 16px;
+        padding: 9px 12px;
+      }
+
+      .preview-grid {
+        grid-template-columns: repeat(7, 210px);
+      }
+
+      .day {
+        padding: 14px;
+        border-radius: 22px;
+      }
+
+      .day-header {
+        grid-template-columns: 1fr;
+      }
+
+      summary {
+        grid-template-columns: auto 1fr auto;
+        padding: 13px;
+      }
+
+      .time {
+        min-width: 52px;
+      }
+
+      .activity-body {
+        padding: 0 13px 14px 13px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-<body>
 
-    <header>
-        <h1>Rome 🏛️</h1>
-        <div class="subtitle">Reisplanning: 29 april - 5 mei 2026</div>
+<body>
+  <a id="top"></a>
+
+  <div class="page">
+    <header class="hero">
+      <p class="eyebrow">Reisplanning · 29 april t/m 5 mei 2026</p>
+      <h1>Rome 🏛️</h1>
+      <p>
+        Een rustige, scrollbare planning met korte dagoverzichten en extra informatie per activiteit onder een knop.
+        De Google Maps-links staan per activiteit bij elkaar.
+      </p>
     </header>
 
-    <div class="container">
+    <nav class="nav">
+      <div class="nav-inner">
+        <a href="#woensdag">Wo 29 apr</a>
+        <a href="#donderdag">Do 30 apr</a>
+        <a href="#vrijdag">Vr 1 mei</a>
+        <a href="#zaterdag">Za 2 mei</a>
+        <a href="#zondag">Zo 3 mei</a>
+        <a href="#maandag">Ma 4 mei</a>
+        <a href="#dinsdag">Di 5 mei</a>
+      </div>
+    </nav>
 
-        <div class="day-card">
-            <h2 class="day-header">Woensdag 29 april <span>Reisdag & Aankomst</span></h2>
-            
-            <div class="event">
-                <div class="time-badge">16:25 - 18:00</div>
-                <div class="event-title">Aankomst en Check-in</div>
-                <div class="event-desc">
-                    Aankomst op de luchthaven. Met de <strong>Leonardo Express</strong> naar het centrum.
-                    <div class="info-box">
-                        <strong>Info:</strong> De Leonardo Express is een directe treinverbinding tussen luchthaven Fiumicino en treinstation Roma Termini. De rit duurt 32 minuten en vertrekt elke 15 minuten.
-                    </div>
-                </div>
-                
-                <div class="maps-preview">
-                    <iframe src="https://maps.google.com/maps?q=Roma+Termini&t=&z=14&ie=UTF8&iwloc=&output=embed" width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen></iframe>
-                </div>
-                <a href="https://maps.google.com/?q=Roma+Termini" target="_blank" class="maps-link">Open Roma Termini in Google Maps</a>
+    <section>
+      <div class="section-title">
+        <h2>Korte preview</h2>
+        <p>De hele week in één oogopslag.</p>
+      </div>
 
-                <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                <div class="tour-guide-content">
-                    <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                    Welkom in de Eeuwige Stad! Termini is niet alleen het grootste station van Italië, maar ontleent zijn naam aan de nabijgelegen baden (thermae) van Diocletianus. Kijk goed om je heen als je het station uitloopt: een deel van de allereerste stadsmuur van Rome, de Servische Muur uit de 4e eeuw voor Christus, staat gewoon pontificaal naast de McDonald's voor het station!
-                </div>
-            </div>
+      <div class="preview-grid">
+        <article class="preview-card">
+          <strong>Wo 29 apr</strong>
+          <span>Reisdag + centrum</span>
+          <ul>
+            <li>Aankomst 16.25</li>
+            <li>Leonardo Express</li>
+            <li>Rondje centrum</li>
+          </ul>
+        </article>
 
-            <div class="event">
-                <div class="time-badge">Avond</div>
-                <div class="event-title">Rondje Centrum + Diner</div>
-                <ul class="checklist">
-                    <li>
-                        <strong>Spaanse Trappen:</strong> Prachtig in de avond. Let op: het is tegenwoordig verboden om op de trappen te zitten.
-                        <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Spanish+Steps+Rome&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                        <a href="https://maps.google.com/?q=Spanish+Steps+Rome" target="_blank" class="maps-link">Route naar Spaanse Trappen</a>
-                        <br>
-                        <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                        <div class="tour-guide-content">
-                            <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                            Wist je dat de Spaanse Trappen eigenlijk gebouwd zijn met Frans geld? De diplomaat Étienne Gueffier liet in 1723 een enorm bedrag na om ze te bouwen. Ze heten 'Spaans' omdat de Spaanse ambassade hier destijds gevestigd was. Onderaan vind je de fontein 'La Barcaccia', een zinkend bootje, ontworpen door de vader van de beroemde beeldhouwer Bernini nadat er tijdens een enorme overstroming in 1598 echt een boot op dit plein aanspoelde!
-                        </div>
-                    </li>
-                    <li>
-                        <strong>Trevi Fontein:</strong> Gooi een muntje over je linkerschouder met je rechterhand om zeker te zijn van een terugkeer naar Rome!
-                        <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Trevi+Fountain+Rome&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                        <a href="https://maps.google.com/?q=Trevi+Fountain+Rome" target="_blank" class="maps-link">Route naar Trevi Fontein</a>
-                        <br>
-                        <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                        <div class="tour-guide-content">
-                            <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                            Bereid je voor op de grootte: deze fontein is enorm en staat verstopt in een relatief klein plein, wat het effect extra theatraal maakt. Elke dag wordt er voor ongeveer €3.000 aan muntjes in de fontein gegooid! Dit geld wordt elke nacht door de gemeente opgevist en gedoneerd aan Caritas, een katholieke liefdadigheidsinstelling die er boodschappen voor arme Romeinse families van koopt.
-                        </div>
-                    </li>
-                    <li>
-                        <strong>Pantheon:</strong> 
-                        <div class="alert-box"><strong>Reserveren?</strong> Ja! Sinds juli 2023 heb je een betaald ticket (€5) nodig om het Pantheon te bezoeken. Op weekenddagen en feestdagen is vooraf online reserveren sterk aanbevolen om lange rijen te voorkomen. 's Avonds is het gebouw vaak van buiten prachtig verlicht.</div>
-                        <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Pantheon+Rome&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                        <a href="https://maps.google.com/?q=Pantheon+Rome" target="_blank" class="maps-link">Route naar Pantheon</a>
-                        <br>
-                        <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                        <div class="tour-guide-content">
-                            <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                            Het Pantheon bezit tot op de dag van vandaag de grootste ongewapende betonnen koepel ter wereld. Bovenin zit een gat (de oculus) van 9 meter doorsnee. Dit is de enige lichtbron (en ja, als het regent, regent het gewoon naar binnen via dit gat, waarna het water via ingenieuze gaatjes in de vloer weer wegloopt). Hier ligt ook de beroemde Renaissance-schilder Rafaël begraven.
-                        </div>
-                    </li>
-                    <li>
-                        <strong>Piazza Navona:</strong> Beroemd om Bernini's spectaculaire Vierstromenfontein. Levendig plein vol kunstenaars.
-                        <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Piazza+Navona+Rome&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                        <a href="https://maps.google.com/?q=Piazza+Navona+Rome" target="_blank" class="maps-link">Route naar Piazza Navona</a>
-                        <br>
-                        <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                        <div class="tour-guide-content">
-                            <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                            Valt je de rare, langgerekte ovale vorm van dit plein op? Dat komt omdat dit vroeger geen plein was, maar het "Stadion van Domitianus" uit de eerste eeuw! Hier werden atletiekwedstrijden gehouden. De gebouwen rondom het plein zijn gebouwd óp de oude tribunes van het stadion.
-                        </div>
-                    </li>
-                    <li>
-                        <strong>Schildpadfontein (Fontana delle Tartarughe):</strong> Een verborgen juweeltje in de schilderachtige Joodse wijk (Ghetto). Een van de charmantste fonteinen uit de Renaissance.
-                        <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Fontana+delle+Tartarughe+Rome&t=&z=17&ie=UTF8&iwloc=&output=embed" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                        <a href="https://maps.google.com/?q=Fontana+delle+Tartarughe+Rome" target="_blank" class="maps-link">Route naar Schildpadfontein</a>
-                        <br>
-                        <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                        <div class="tour-guide-content">
-                            <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                            Een romantisch lokaal fabeltje zegt dat de hertog Mattei deze fontein in één enkele nacht liet bouwen om zijn toekomstige schoonvader te overtuigen van zijn rijkdom en macht (hij had al zijn geld vergokt). In werkelijkheid duurde de bouw jaren. De schildpadden hoorden er origineel niet bij; deze werden jaren later toegevoegd (vermoedelijk door Bernini) omdat de jongens op de fontein anders een beetje doelloos hun handen omhoog leken te houden!
-                        </div>
-                    </li>
-                </ul>
-            </div>
+        <article class="preview-card">
+          <strong>Do 30 apr</strong>
+          <span>Vaticaan</span>
+          <ul>
+            <li>9.00 Vaticaanse Musea</li>
+            <li>12.45 aanwezig</li>
+            <li>13.00 Sint Pieter</li>
+          </ul>
+        </article>
+
+        <article class="preview-card">
+          <strong>Vr 1 mei</strong>
+          <span>Dag van de Arbeid</span>
+          <ul>
+            <li>Via Appia</li>
+            <li>Catacomben</li>
+            <li>Villa Borghese</li>
+          </ul>
+        </article>
+
+        <article class="preview-card">
+          <strong>Za 2 mei</strong>
+          <span>Oude Rome</span>
+          <ul>
+            <li>13.15 aanwezig</li>
+            <li>13.45 Colosseum</li>
+            <li>Forum + Palatijn</li>
+          </ul>
+        </article>
+
+        <article class="preview-card">
+          <strong>Zo 3 mei</strong>
+          <span>Gladiatoren + centrum</span>
+          <ul>
+            <li>Gladiator training</li>
+            <li>Mond van de Waarheid</li>
+            <li>Aventijn + Pantheon</li>
+          </ul>
+        </article>
+
+        <article class="preview-card">
+          <strong>Ma 4 mei</strong>
+          <span>Dagtocht</span>
+          <ul>
+            <li>7.10 aanwezig</li>
+            <li>7.30 vertrek</li>
+            <li>Pompeï + Vesuvius</li>
+          </ul>
+        </article>
+
+        <article class="preview-card">
+          <strong>Di 5 mei</strong>
+          <span>Terugreis</span>
+          <ul>
+            <li>7.00 ontbijt</li>
+            <li>8.30 vliegveld</li>
+            <li>10.35 vertrek</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <main>
+
+      <!-- WOENSDAG -->
+      <section class="day" id="woensdag">
+        <div class="day-header">
+          <div>
+            <h2>Woensdag 29 april 2026</h2>
+            <div class="meta">Reisdag · aankomst Rome · eerste rondje centrum</div>
+          </div>
+          <span class="badge">✈️ Aankomst 16.25</span>
         </div>
 
-        <div class="day-card">
-            <h2 class="day-header">Donderdag 30 april <span>Vaticaanstad</span></h2>
-            
-            <div class="event">
-                <div class="time-badge">09:00</div>
-                <div class="event-title">Vaticaanse Musea</div>
-                <div class="event-desc">
-                    Een van de grootste kunstcollecties ter wereld, eindigend in de Sixtijnse Kapel met het plafond van Michelangelo.
-                    <div class="info-box"><strong>Tip:</strong> Zorg voor kleding die schouders en knieën bedekt, anders kan de toegang geweigerd worden.</div>
-                </div>
-                <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Vatican+Museums&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                <a href="https://maps.google.com/?q=Vatican+Museums" target="_blank" class="maps-link">Open Vaticaanse Musea in Google Maps</a>
-                
-                <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                <div class="tour-guide-content">
-                    <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                    De Vaticaanse musea bestaan uit maar liefst 54 galerijen, en bevatten meer dan 20.000 tentoongestelde werken (en nog eens tienduizenden in de kelders). Als je één minuut voor elk kunstwerk zou staan, ben je vier jaar onafgebroken bezig! Vergeet in de Sixtijnse Kapel niet te zoeken naar het portret van Michelangelo zelf; hij schilderde zijn eigen, vervormde gezicht op de afgestroopte huid die Sint Bartholomeus vasthoudt in het fresco 'Het Laatste Oordeel'.
-                </div>
-            </div>
-
-            <div class="event">
-                <div class="time-badge">12:45 aanwezig / 13:00 start</div>
-                <div class="event-title">Sint-Pietersbasiliek</div>
-                <div class="event-desc">
-                    Bezoek aan de grootste en belangrijkste kerk van het katholicisme. Je kunt hier (optioneel) de koepel beklimmen voor een weids uitzicht over het Sint-Pietersplein en Rome.
-                </div>
-                <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=St.+Peter's+Basilica&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                <a href="https://maps.google.com/?q=St.+Peter's+Basilica" target="_blank" class="maps-link">Open Sint-Pietersbasiliek in Google Maps</a>
-
-                <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                <div class="tour-guide-content">
-                    <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                    Het interieur van deze kerk is zó immens dat de proporties je voor de gek houden. De letters die langs de binnenkant van de koepel staan geschreven, lijken vanaf de grond normale grootte te hebben, maar in werkelijkheid zijn ze ruim 2 meter hoog! Het enorme bronzen baldakijn (overkapping) boven het altaar, gemaakt door Bernini, is gegoten met brons dat letterlijk van het dak van het Pantheon is weggesloopt.
-                </div>
-            </div>
+        <div class="route-note">
+          <strong>Globale route:</strong> aankomst Rome Fiumicino 16.25 → Leonardo Express → aankomst hotel rond 18.00 → rondje centrum + diner.
         </div>
 
-        <div class="day-card">
-            <h2 class="day-header">Vrijdag 1 mei <span>Centrum</span></h2>
-            
-            <div class="alert-box" style="margin-bottom: 1.5rem;">
-                <strong>Let op - Feestdag:</strong> 1 mei is de Dag van de Arbeid (Primo Maggio) in Italië. Veel winkels en sommige musea kunnen gesloten zijn of aangepaste openingstijden hebben. Ook is er traditioneel een groot en druk gratis concert op het Piazza di San Giovanni in Laterano.
-            </div>
+        <div class="activities">
 
-            <div class="event">
-                <div class="time-badge">Overdag</div>
-                <div class="event-title">Palatijn / Circus Maximus / Aventijn</div>
-                <ul class="checklist">
-                    <li>
-                        <strong>Palatijn:</strong> De heuvel waar Rome is gesticht en waar de keizers hun enorme paleizen bouwden. (Check openingstijden i.v.m. de feestdag).
-                    </li>
-                    <li>
-                        <strong>Circus Maximus:</strong> De voormalige renbaan voor strijdwagens, gelegen in de vallei tussen de Palatijn en de Aventijn.
-                        <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Circus+Maximus+Rome&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                        <a href="https://maps.google.com/?q=Circus+Maximus+Rome" target="_blank" class="maps-link">Route naar Circus Maximus</a>
-                    </li>
-                    <li>
-                        <strong>Aventijn:</strong> Een rustige, groene heuvel. Bezoek hier zeker de <em>Sinaasappeltuin (Giardino degli Aranci)</em> voor een prachtig uitzicht over de stad, en kijk door het beroemde <em>Sleutelgat van de Maltezer Orde (Buco della serratura)</em> waar je de koepel van de Sint-Pieter perfect ingekaderd ziet.
-                        <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Knights+of+Malta+Keyhole&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                        <a href="https://maps.google.com/?q=Knights+of+Malta+Keyhole" target="_blank" class="maps-link">Route naar Sleutelgat Aventijn</a>
-                    </li>
-                </ul>
+          <details>
+            <summary>
+              <span class="time">16.25</span>
+              <span class="activity-title">
+                <strong>Aankomst Rome Fiumicino</strong>
+                <span>Bagage, oriëntatie en door naar de trein.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
 
-                <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                <div class="tour-guide-content">
-                    <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                    Het Circus Maximus klinkt misschien als 'gewoon een kuil' nu je er staat, maar beeld je in dat hier vroeger tot wel 150.000 (!) joelende toeschouwers zaten om naar levensgevaarlijke wagenrennen te kijken, vergelijkbaar met Formule 1 maar dan met paarden. Wat betreft het sleutelgat op de Aventijn: als je erdoorheen kijkt zie je drie "landen" tegelijk: de tuinen van de ridders van Malta (soeverein gebied), de stad Rome (Italië) en in de verte de Sint-Pieter (Vaticaanstad).
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Wat handig is</h4>
+                  <p>
+                    Na aankomst op Fiumicino volg je de borden naar <strong>Stazione Ferroviaria / Train</strong>.
+                    De Leonardo Express is de makkelijkste verbinding naar Roma Termini.
+                  </p>
+                  <ul>
+                    <li>Reken tijd voor uitstappen, bagage en toilet.</li>
+                    <li>Koop tickets vooraf online of bij de automaat.</li>
+                    <li>Bewaar tickets en ID’s op een vaste plek.</li>
+                  </ul>
                 </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Rome+Fiumicino+Airport">Fiumicino Airport</a>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Fiumicino+Airport&destination=Roma+Termini&travelmode=transit">Route Fiumicino → Termini</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Roma+Termini">Roma Termini</a>
+                </div>
+              </div>
             </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">±18.00</span>
+              <span class="activity-title">
+                <strong>Aankomst hotel</strong>
+                <span>Inchecken, spullen neerzetten en even landen.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Praktisch</h4>
+                  <p>
+                    Plan dit moment niet te vol. Even water halen, telefoons opladen, tickets checken en bepalen of iedereen nog zin heeft in een eerste wandeling.
+                  </p>
+                  <div class="tip">
+                    <strong>Tip:</strong> zet het hotel offline in Google Maps, zodat je altijd makkelijk terug kunt.
+                  </div>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Roma+Termini+hotel">Hotels bij Termini</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=supermarket+near+Roma+Termini">Supermarkt bij Termini</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">Avond</span>
+              <span class="activity-title">
+                <strong>Rondje centrum + diner</strong>
+                <span>Spaanse Trappen, Trevi, Piazza Navona en Schildpadfontein.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Route-idee</h4>
+                  <p>
+                    Een mooie eerste avondwandeling langs een aantal klassiekers. Niet te gehaast: Rome is juist fijn als je langzaam door de straatjes loopt.
+                  </p>
+                  <ul>
+                    <li><strong>Spaanse Trappen:</strong> mooi beginpunt en fotomoment.</li>
+                    <li><strong>Trevi Fontein:</strong> druk, maar sfeervol in de avond.</li>
+                    <li><strong>Piazza Navona:</strong> levendig plein met fonteinen.</li>
+                    <li><strong>Schildpadfontein:</strong> kleiner en rustiger.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Spanish+Steps+Rome">Spaanse Trappen</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Trevi+Fountain+Rome">Trevi Fontein</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Piazza+Navona+Rome">Piazza Navona</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Fontana+delle+Tartarughe+Rome">Schildpadfontein</a>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Spanish+Steps+Rome&destination=Fontana+delle+Tartarughe+Rome&waypoints=Trevi+Fountain+Rome%7CPiazza+Navona+Rome&travelmode=walking">Wandelroute centrum</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+      <!-- DONDERDAG -->
+      <section class="day" id="donderdag">
+        <div class="day-header">
+          <div>
+            <h2>Donderdag 30 april 2026</h2>
+            <div class="meta">Vaticaanse Musea · Sint-Pietersbasiliek</div>
+          </div>
+          <span class="badge">⛪ Vaticaan</span>
         </div>
 
-        <div class="day-card">
-            <h2 class="day-header">Zaterdag 2 mei <span>Oude Rome</span></h2>
-            
-            <div class="event">
-                <div class="time-badge">13:15 aanwezig / 13:45 start</div>
-                <div class="event-title">Colosseum / Forum Romanum / Palatijn</div>
-                <div class="event-desc">
-                    Het absolute hart van het antieke Rome.
-                    <div class="info-box">
-                        Het ticket voor het Colosseum is een combinatieticket met het Forum Romanum (het oude politieke en commerciële centrum) en de Palatijnse heuvel. Omdat je gisteren ook de Palatijn gepland had staan, kun je deze middag volledig focussen op het amfitheater en het Forum. Zorg voor comfortabele schoenen (ongelijke oude stenen).
-                    </div>
-                </div>
-                <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Colosseum+Rome&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                <a href="https://maps.google.com/?q=Colosseum+Rome" target="_blank" class="maps-link">Open Colosseum in Google Maps</a>
-
-                <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                <div class="tour-guide-content">
-                    <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                    Het Colosseum heette vroeger eigenlijk het 'Flavisch Amfitheater'. Waar komt de naam Colosseum dan vandaan? Er stond een gigantisch koperen standbeeld (een Kolos) van de beruchte Keizer Nero net buiten het gebouw, vandaar de naam! Het kon 50.000 tot 80.000 toeschouwers herbergen. De gaten in de buitenkant van het gebouw komen doordat in de Middeleeuwen het waardevolle ijzer en brons tussen de stenen eruit is gehakt om omgesmolten te worden tot wapens. Het Forum Romanum was het Times Square van de oudheid; hier sprak Julius Caesar de menigte toe en stonden de belangrijkste markten.
-                </div>
-            </div>
+        <div class="route-note">
+          <strong>Belangrijk:</strong> 9.00 Vaticaanse Musea. Voor Sint Pieter: 12.45 aanwezig, 13.00 start. Reistijd ongeveer 30 minuten met metro A vanaf Termini.
         </div>
 
-        <div class="day-card">
-            <h2 class="day-header">Zondag 3 mei <span>Actief en Historie</span></h2>
-            
-            <div class="event">
-                <div class="time-badge">Sessie</div>
-                <div class="event-title">Gladiator Training</div>
-                <div class="event-desc">
-                    Interactieve ervaring bij de Gladiator School. <br>
-                    <a href="https://www.getyourguide.com/rome-l33/gladiator-school-in-rome-for-kids-and-adults-t34663?cmp=a12eefb0f97546398fc1d1fc0-361131&partner_id=0JJQDRO&partner_visitor_id=mamalovesrome.com&placement=content-middle&_pc=1,4&date_from=2026-05-03" target="_blank">Bekijk de reservering hier</a>
-                </div>
-                <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Via+Appia+Antica,+18,+Roma&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                <a href="https://maps.google.com/?q=Via+Appia+Antica+18+Rome" target="_blank" class="maps-link">Route naar Gladiator School</a>
+        <div class="activities">
 
-                <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                <div class="tour-guide-content">
-                    <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                    Vergeet de Hollywoodfilms met bodybuilders; gladiatoren hadden eigenlijk vaak een dik laagje vet! Ze aten een dieet dat voornamelijk uit gerst en bonen bestond. Dit deden ze bewust, omdat dat laagje vet bescherming bood tegen lichte snijwonden in de arena. Je bloedt dan wel, wat een goed spektakel is voor het publiek, maar je vitale organen blijven beschermd!
+          <details>
+            <summary>
+              <span class="time">09.00</span>
+              <span class="activity-title">
+                <strong>Vaticaanse Musea</strong>
+                <span>Viale Vaticano · kunst, galerijen en Sixtijnse Kapel.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Wat je ziet</h4>
+                  <p>
+                    De Vaticaanse Musea zijn enorm. Zie het als een route langs hoogtepunten:
+                    binnenplaatsen, galerijen, beelden, de kaartenzaal en uiteindelijk de Sixtijnse Kapel.
+                  </p>
+                  <ul>
+                    <li>Neem tickets en ID mee.</li>
+                    <li>Schouders en knieën bedekt is verstandig.</li>
+                    <li>Verwacht drukte, ook met tijdslot.</li>
+                  </ul>
                 </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Vatican+Museums+Viale+Vaticano+Rome">Vaticaanse Musea</a>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Roma+Termini&destination=Vatican+Museums+Viale+Vaticano+Rome&travelmode=transit">Route vanaf Termini</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Ottaviano+metro+Rome">Metro Ottaviano</a>
+                </div>
+              </div>
             </div>
+          </details>
 
-            <div class="event">
-                <div class="time-badge">Middag</div>
-                <div class="event-title">Via Appia / Catacomben / Fietstour</div>
-                <div class="event-desc">
-                    De Via Appia Antica is een van de oudste toegangswegen naar Rome.
-                    <div class="info-box"><strong>Tip:</strong> Zondag is de absolute topdag hiervoor! De Via Appia is dan afgesloten voor autoverkeer, waardoor het een perfecte, veilige route is om te fietsen langs de eeuwenoude ruïnes en de ondergrondse begraafplaatsen (Catacomben van San Callisto of San Sebastiano).</div>
-                </div>
-                <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Catacombs+of+San+Callisto&t=&z=14&ie=UTF8&iwloc=&output=embed" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                <a href="https://maps.google.com/?q=Catacombs+of+San+Callisto" target="_blank" class="maps-link">Route naar Via Appia (Catacomben)</a>
+          <details>
+            <summary>
+              <span class="time">13.00</span>
+              <span class="activity-title">
+                <strong>Sint-Pietersbasiliek</strong>
+                <span>12.45 aanwezig · basiliek, plein en eventueel koepel.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
 
-                <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                <div class="tour-guide-content">
-                    <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                    De Via Appia was de "Koningin der Wegen" en werd in 312 v.Chr. aangelegd. Omdat het volgens de Romeinse wet verboden was om mensen binnen de stadsmuren te begraven, ontstonden langs deze weg honderden kilometers aan ondergrondse gangen: de catacomben. Alleen al de Catacomben van San Callisto bevatten een netwerk van zo'n 20 kilometer waar naar schatting een half miljoen mensen werden begraven, waaronder 16 pausen.
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Wat je kunt doen</h4>
+                  <p>
+                    De Sint-Pieter is indrukwekkend door de schaal, de kunst en het plein ervoor. Als er energie is, is de koepel een bijzondere toevoeging.
+                  </p>
+                  <ul>
+                    <li>12.45 aanwezig betekent: niet pas dan vertrekken.</li>
+                    <li>Houd rekening met controles en drukte.</li>
+                    <li>Respectvolle kleding blijft belangrijk.</li>
+                  </ul>
                 </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=St.+Peter%27s+Basilica+Rome">Sint-Pietersbasiliek</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=St.+Peter%27s+Square+Vatican">Sint-Pietersplein</a>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Vatican+Museums+Rome&destination=St.+Peter%27s+Basilica+Rome&travelmode=walking">Musea → Sint Pieter</a>
+                </div>
+              </div>
             </div>
+          </details>
 
-            <div class="event">
-                <div class="time-badge">Namiddag / Avond</div>
-                <div class="event-title">Villa Borghese & Mond van de Waarheid</div>
-                <ul class="checklist">
-                    <li>
-                        <strong>Mond van de waarheid (Bocca della Verità):</strong> Een enorm marmeren masker. De legende zegt dat het je hand afbijt als je een leugenaar bent. Reken op een rij voor de foto. (Locatie: portiek van de kerk Santa Maria in Cosmedin - let op de sluitingstijd rond 17:50).
-                        <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Mouth+of+Truth+Rome&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                        <a href="https://maps.google.com/?q=Mouth+of+Truth+Rome" target="_blank" class="maps-link">Route naar Mond van de Waarheid</a>
-                    </li>
-                    <li>
-                        <strong>Villa Borghese:</strong> Het beroemdste park van Rome. Huur een roeibootje, wandel rond of geniet vanaf het <em>Terrazza del Pincio</em> van een spectaculaire zonsondergang over de stad.
-                        <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Terrazza+del+Pincio+Rome&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                        <a href="https://maps.google.com/?q=Terrazza+del+Pincio+Rome" target="_blank" class="maps-link">Route naar Villa Borghese (Pincio)</a>
-                    </li>
-                </ul>
+        </div>
+      </section>
 
-                <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                <div class="tour-guide-content">
-                    <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                    De beroemde "Mond van de Waarheid" uit de film *Roman Holiday* was vermoedelijk vroeger helemaal niet zo magisch of mysterieus... Historici denken dat deze schijf uit de 1e eeuw na Christus hoogstwaarschijnlijk diende als een riooldeksel van de Cloaca Maxima (het grote riool van Rome), waarbij het water door de ogen en mond wegstroomde!
-                </div>
-            </div>
+      <!-- VRIJDAG -->
+      <section class="day" id="vrijdag">
+        <div class="day-header">
+          <div>
+            <h2>Vrijdag 1 mei 2026</h2>
+            <div class="meta">Dag van de Arbeid · Via Appia · Catacomben · Villa Borghese</div>
+          </div>
+          <span class="badge">🌿 Buiten Rome</span>
         </div>
 
-        <div class="day-card">
-            <h2 class="day-header">Maandag 4 mei <span>Pompeï en Vesuvius</span></h2>
-            
-            <div class="event">
-                <div class="time-badge">07:30</div>
-                <div class="event-title">Dagtocht vanuit Rome</div>
-                <div class="event-desc">
-                    Verzamelen op <strong>Piazza del Popolo</strong> voor vertrek.
-                    <div class="info-box">
-                        Dit is een lange, maar zeer indrukwekkende dag. Je reist zuidwaarts naar de regio Campanië. Je bezoekt de vulkaan Vesuvius (een flinke klim naar de krater, dus neem goede schoenen mee) en de uitgestrekte ruïnes van de stad Pompeï, die in 79 n.Chr. onder de as werd bedolven. Busreis duurt ca. 3 uur per enkele reis.
-                    </div>
-                </div>
-                <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Piazza+del+Popolo+Rome&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                <a href="https://maps.google.com/?q=Piazza+del+Popolo+Rome" target="_blank" class="maps-link">Open Startpunt Piazza del Popolo in Google Maps</a>
-
-                <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                <div class="tour-guide-content">
-                    <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                    Piazza del Popolo, je vertrekpunt vandaag, betekent 'Plein van het Volk'. De gigantische obelisk in het midden is Egyptisch, dateert uit 1300 voor Christus, en werd door Keizer Augustus meegenomen naar Rome na zijn overwinning op Cleopatra en Marcus Antonius. 
-                    <br><br>
-                    Wat betreft Pompeï: de stad werd niet verwoest door lava, maar begraven onder 4 tot 6 meter gloeiendhete as en puimsteen. Omdat de as de stad luchtdicht afsloot, is alles perfect bewaard gebleven, inclusief muurschilderingen, mozaïeken, en zelfs de restanten van broden in de ovens! De Vesuvius is overigens de enige vulkaan op het vasteland van Europa die in de afgelopen 100 jaar nog is uitgebarsten (in 1944).
-                </div>
-            </div>
+        <div class="route-note">
+          <strong>Planning:</strong> Via Appia / Catacomben / Villa Borghese. Omdat 1 mei een feestdag is, is het slim om openingstijden, tickets en vervoer nog één keer te controleren.
         </div>
 
-        <div class="day-card">
-            <h2 class="day-header">Dinsdag 5 mei <span>Reisdag</span></h2>
-            
-            <div class="event">
-                <div class="time-badge">10:35</div>
-                <div class="event-title">Vertrek</div>
-                <div class="event-desc">
-                    Vlucht vanaf het vliegveld. Zorg dat je ruim op tijd bent. Arrivederci Roma!
-                </div>
-                <div class="maps-preview"><iframe src="https://maps.google.com/maps?q=Fiumicino+Airport&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen></iframe></div>
-                <a href="https://maps.google.com/?q=Fiumicino+Airport" target="_blank" class="maps-link">Open Vliegveld Fiumicino in Google Maps</a>
+        <div class="activities">
 
-                <button class="btn-tour-guide" onclick="toggleTourGuide(this)">🎧 Toon Tour Guide Info</button>
-                <div class="tour-guide-content">
-                    <div class="tour-guide-title">🎙️ Je Lokale Gids Vertelt:</div>
-                    Gooi je nog snel ergens een laatste muntje in een fontein? Je kunt er geen genoeg van krijgen he? Een bekende lokale uitspraak is: <em>"Roma non basta una vita"</em> — Voor Rome is één leven niet genoeg. Goede reis terug en tot de volgende keer!
+          <details>
+            <summary>
+              <span class="time">Ochtend</span>
+              <span class="activity-title">
+                <strong>Via Appia Antica</strong>
+                <span>Een van de oudste Romeinse wegen, net buiten het drukke centrum.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Waarom dit mooi is</h4>
+                  <p>
+                    De Via Appia Antica voelt anders dan het centrum: ouder, ruimer en groener. Je loopt of fietst over stukken oude weg, langs resten van Romeinse graven, stenen en landschap.
+                  </p>
+                  <ul>
+                    <li>Trek goede schoenen aan: de oude stenen zijn ongelijk.</li>
+                    <li>Neem water en snacks mee.</li>
+                    <li>Fietsen kan leuk zijn, maar check vooraf beschikbaarheid.</li>
+                  </ul>
                 </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Via+Appia+Antica+Rome">Via Appia Antica</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Appia+Antica+Regional+Park+Rome">Parco Appia Antica</a>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Roma+Termini&destination=Via+Appia+Antica+Rome&travelmode=transit">Route vanaf Termini</a>
+                </div>
+              </div>
             </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">Middag</span>
+              <span class="activity-title">
+                <strong>Catacomben</strong>
+                <span>Ondergrondse begraafplaatsen en vroegchristelijke geschiedenis.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Wat je kunt verwachten</h4>
+                  <p>
+                    De catacomben geven een ander beeld van Rome: donker, ondergronds en historisch. Vaak bezoek je ze met een rondleiding.
+                  </p>
+                  <ul>
+                    <li>Check welke catacombe open is op 1 mei.</li>
+                    <li>Neem een vestje mee: ondergronds kan het koeler zijn.</li>
+                    <li>Voor kinderen kan het spannend zijn, dus bereid kort voor wat ze gaan zien.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Catacombs+of+San+Callisto+Rome">Catacomben van San Callisto</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Catacombs+of+San+Sebastiano+Rome">Catacomben van San Sebastiano</a>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Via+Appia+Antica+Rome&destination=Catacombs+of+San+Callisto+Rome&travelmode=walking">Via Appia → San Callisto</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">Namiddag</span>
+              <span class="activity-title">
+                <strong>Villa Borghese</strong>
+                <span>Park, uitzicht, rust en eventueel fietsen of bootje.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Waarom dit fijn is</h4>
+                  <p>
+                    Villa Borghese is een grote groene plek boven het centrum. Ideaal om na de Via Appia en catacomben even lucht en rust te pakken.
+                  </p>
+                  <ul>
+                    <li>Mooi te combineren met Piazza del Popolo.</li>
+                    <li>Fijn moment voor ijs, drinken en pauze.</li>
+                    <li>Loop eventueel naar uitzichtpunt Pincio.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Villa+Borghese+Rome">Villa Borghese</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Pincio+Terrace+Rome">Uitzichtpunt Pincio</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Piazza+del+Popolo+Rome">Piazza del Popolo</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+      <!-- ZATERDAG -->
+      <section class="day" id="zaterdag">
+        <div class="day-header">
+          <div>
+            <h2>Zaterdag 2 mei 2026</h2>
+            <div class="meta">Colosseum · Forum Romanum · Palatijn</div>
+          </div>
+          <span class="badge">🏟️ 13.15 aanwezig</span>
         </div>
 
-    </div>
+        <div class="route-note">
+          <strong>Belangrijk:</strong> 13.15 aanwezig, start 13.45. Deze middag draait om het Oude Rome.
+        </div>
 
-    <script>
-        function toggleTourGuide(btn) {
-            const content = btn.nextElementSibling;
-            if (content.classList.contains('active')) {
-                content.classList.remove('active');
-                btn.innerHTML = '🎧 Toon Tour Guide Info';
-            } else {
-                content.classList.add('active');
-                btn.innerHTML = '🤫 Verberg Tour Guide Info';
-            }
-        }
-    </script>
+        <div class="activities">
+
+          <details>
+            <summary>
+              <span class="time">13.45</span>
+              <span class="activity-title">
+                <strong>Colosseum</strong>
+                <span>Het beroemdste amfitheater van Rome.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Wat je ziet</h4>
+                  <p>
+                    Het Colosseum is geen gewoon stadion, maar een plek van macht, publiek vermaak, geweld en Romeinse organisatie.
+                  </p>
+                  <ul>
+                    <li>Neem tickets en ID mee.</li>
+                    <li>Kom op tijd: 13.15 aanwezig.</li>
+                    <li>Let op tassencontrole.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Colosseum+Rome">Colosseum</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Colosseo+metro+Rome">Metro Colosseo</a>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Roma+Termini&destination=Colosseum+Rome&travelmode=transit">Route vanaf Termini</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">Daarna</span>
+              <span class="activity-title">
+                <strong>Forum Romanum & Palatijn</strong>
+                <span>Ruïnes, keizerlijke macht en uitzicht op het oude centrum.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Wat je kunt verwachten</h4>
+                  <p>
+                    Het Forum Romanum was het politieke, religieuze en commerciële hart van het oude Rome. De Palatijn is de heuvel van keizers en paleizen.
+                  </p>
+                  <ul>
+                    <li>Het terrein is groot: kies liever een paar herkenbare punten dan alles.</li>
+                    <li>Er is veel steen en weinig schaduw.</li>
+                    <li>Goede schoenen zijn belangrijk.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Roman+Forum+Rome">Forum Romanum</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Palatine+Hill+Rome">Palatijn</a>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Colosseum+Rome&destination=Palatine+Hill+Rome&waypoints=Roman+Forum+Rome&travelmode=walking">Colosseum → Forum → Palatijn</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+      <!-- ZONDAG -->
+      <section class="day" id="zondag">
+        <div class="day-header">
+          <div>
+            <h2>Zondag 3 mei 2026</h2>
+            <div class="meta">Gladiator training · Mond van de Waarheid · Circus Maximus · Aventijn · Pantheon</div>
+          </div>
+          <span class="badge">⚔️ Actief + centrum</span>
+        </div>
+
+        <div class="route-note">
+          <strong>Planning:</strong> Gladiator training / Mond van de Waarheid / Circus Maximus / Aventijn / Pantheon.
+        </div>
+
+        <div class="activities">
+
+          <details>
+            <summary>
+              <span class="time">Ochtend</span>
+              <span class="activity-title">
+                <strong>Gladiator training</strong>
+                <span>Actieve ervaring met Romeins thema.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Waarom leuk</h4>
+                  <p>
+                    Een gladiatortraining is een fijne afwisseling tussen kerken, pleinen en ruïnes. Het maakt de Romeinse geschiedenis tastbaar en actief.
+                  </p>
+                  <ul>
+                    <li>Draag makkelijke kleding en schoenen.</li>
+                    <li>Neem water mee.</li>
+                    <li>Check exacte starttijd en locatie in de boeking.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Gladiator+School+Rome">Gladiator School Rome</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Gruppo+Storico+Romano+Rome">Gruppo Storico Romano</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">Daarna</span>
+              <span class="activity-title">
+                <strong>Mond van de Waarheid</strong>
+                <span>Klassieke fotostop bij Bocca della Verità.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Wat is het?</h4>
+                  <p>
+                    De Mond van de Waarheid is een beroemd marmeren gezicht. Volgens de legende bijt hij de hand af van wie liegt.
+                  </p>
+                  <ul>
+                    <li>Kan een wachtrij hebben voor de foto.</li>
+                    <li>Goed te combineren met Circus Maximus en Aventijn.</li>
+                    <li>Maak er een korte stop van als het druk is.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Bocca+della+Verita+Rome">Mond van de Waarheid</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Santa+Maria+in+Cosmedin+Rome">Santa Maria in Cosmedin</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">Middag</span>
+              <span class="activity-title">
+                <strong>Circus Maximus</strong>
+                <span>De plek van de oude wagenrennen.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Wat je ziet</h4>
+                  <p>
+                    Circus Maximus is nu vooral een enorme open vlakte, maar met verbeelding zie je de schaal van de oude wagenrennen.
+                  </p>
+                  <div class="tip">
+                    <strong>Tip:</strong> dit werkt vooral goed als wandelroute tussen de Mond van de Waarheid en de Aventijn.
+                  </div>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Circus+Maximus+Rome">Circus Maximus</a>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Bocca+della+Verita+Rome&destination=Circus+Maximus+Rome&travelmode=walking">Mond van de Waarheid → Circus Maximus</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">Namiddag</span>
+              <span class="activity-title">
+                <strong>Aventijn</strong>
+                <span>Rustige heuvel met uitzicht, sinaasappeltuin en sleutelgat.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Waarom de moeite waard</h4>
+                  <p>
+                    De Aventijn is een van de fijnste plekken om even uit de drukte te zijn. De sinaasappeltuin geeft mooi uitzicht over Rome.
+                  </p>
+                  <ul>
+                    <li>Rustiger dan veel andere highlights.</li>
+                    <li>Mooi voor foto’s en pauze.</li>
+                    <li>Er kan een rij staan bij het sleutelgat.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Aventine+Hill+Rome">Aventijn</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Giardino+degli+Aranci+Rome">Sinaasappeltuin</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Knights+of+Malta+Keyhole+Rome">Sleutelgat Maltezer Orde</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">Einde dag</span>
+              <span class="activity-title">
+                <strong>Pantheon</strong>
+                <span>Een van de best bewaarde gebouwen uit de Romeinse oudheid.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Waarom bijzonder</h4>
+                  <p>
+                    Het Pantheon is indrukwekkend door de koepel, de oculus en de enorme ruimte. Het plein ervoor is ook fijn voor een drankje of diner.
+                  </p>
+                  <ul>
+                    <li>Check of tickets of reservering nodig zijn.</li>
+                    <li>Binnen is het relatief kort maar indrukwekkend.</li>
+                    <li>Mooi te combineren met diner in het centrum.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Pantheon+Rome">Pantheon</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Piazza+della+Rotonda+Rome">Piazza della Rotonda</a>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Giardino+degli+Aranci+Rome&destination=Pantheon+Rome&travelmode=walking">Aventijn → Pantheon</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+      <!-- MAANDAG -->
+      <section class="day" id="maandag">
+        <div class="day-header">
+          <div>
+            <h2>Maandag 4 mei 2026</h2>
+            <div class="meta">Dagtocht Pompeï en Vesuvius</div>
+          </div>
+          <span class="badge">🌋 7.10 aanwezig</span>
+        </div>
+
+        <div class="route-note">
+          <strong>Dagtocht:</strong> 7.30 vertrek vanaf Piazza del Popolo. Zorg dat je rond 7.10 aanwezig bent.
+        </div>
+
+        <div class="activities">
+
+          <details>
+            <summary>
+              <span class="time">07.10</span>
+              <span class="activity-title">
+                <strong>Verzamelen Piazza del Popolo</strong>
+                <span>Op tijd aanwezig voor vertrek om 7.30.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Voor vertrek</h4>
+                  <p>
+                    Dit is een vroege en lange dag. Leg de avond ervoor alvast tickets, ID, water, snacks, zonnebrand en eventueel een vest klaar.
+                  </p>
+                  <ul>
+                    <li>Ontbijt iets kleins vooraf of neem iets mee.</li>
+                    <li>Plan de route naar Piazza del Popolo ruim.</li>
+                    <li>Check de exacte verzamelplek in de bevestiging van de tour.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Piazza+del+Popolo+Rome">Piazza del Popolo</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Flaminio+metro+Rome">Metro Flaminio</a>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Roma+Termini&destination=Piazza+del+Popolo+Rome&travelmode=transit">Route vanaf Termini</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">Dag</span>
+              <span class="activity-title">
+                <strong>Pompeï</strong>
+                <span>Romeinse stad, bewaard door de uitbarsting van de Vesuvius.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Wat maakt Pompeï bijzonder?</h4>
+                  <p>
+                    Pompeï is geen losse ruïne, maar een hele stad. Straten, huizen, pleinen, winkels, badhuizen en fresco’s maken het heel concreet.
+                  </p>
+                  <ul>
+                    <li>Goede schoenen zijn belangrijk.</li>
+                    <li>Er is veel zon en weinig schaduw.</li>
+                    <li>Neem genoeg water mee.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Pompeii+Archaeological+Park">Pompeï Archaeological Park</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Pompeii+Italy">Pompeï</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">Dag</span>
+              <span class="activity-title">
+                <strong>Vesuvius</strong>
+                <span>De vulkaan die Pompeï verwoestte.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Wat je kunt verwachten</h4>
+                  <p>
+                    De Vesuvius maakt het verhaal van Pompeï compleet. Afhankelijk van de tour loop je een stuk omhoog richting de krater.
+                  </p>
+                  <ul>
+                    <li>Draag stevige schoenen.</li>
+                    <li>Neem een vestje of dun jasje mee.</li>
+                    <li>Houd rekening met vermoeidheid na Pompeï.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Mount+Vesuvius+Italy">Vesuvius</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Vesuvius+National+Park">Vesuvius National Park</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+      <!-- DINSDAG -->
+      <section class="day" id="dinsdag">
+        <div class="day-header">
+          <div>
+            <h2>Dinsdag 5 mei 2026</h2>
+            <div class="meta">Ontbijt · uitchecken · vliegveld · terugreis</div>
+          </div>
+          <span class="badge">✈️ Vertrek 10.35</span>
+        </div>
+
+        <div class="route-note">
+          <strong>Planning:</strong> 7.00 ontbijt + uitchecken, 8.30 op vliegveld, vertrek vanaf vliegveld om 10.35.
+        </div>
+
+        <div class="activities">
+
+          <details>
+            <summary>
+              <span class="time">07.00</span>
+              <span class="activity-title">
+                <strong>Ontbijt + uitchecken</strong>
+                <span>Rustig afronden en vertrekken naar Fiumicino.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Checklist</h4>
+                  <ul>
+                    <li>Paspoorten/ID’s bij de hand.</li>
+                    <li>Opladers uit het stopcontact.</li>
+                    <li>Tickets en boardingpasses checken.</li>
+                    <li>Hotelkamer controleren: badkamer, nachtkastje, kluisje.</li>
+                    <li>Eventuele city tax of openstaande kosten betalen.</li>
+                  </ul>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Roma+Termini">Roma Termini</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Rome+Fiumicino+Airport">Fiumicino Airport</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span class="time">08.30</span>
+              <span class="activity-title">
+                <strong>Op het vliegveld</strong>
+                <span>Ruim op tijd voor vertrek om 10.35.</span>
+              </span>
+              <span class="chevron">⌄</span>
+            </summary>
+
+            <div class="activity-body">
+              <div class="info-grid">
+                <div>
+                  <h4>Waarom deze marge fijn is</h4>
+                  <p>
+                    Met een vlucht om 10.35 is 8.30 op het vliegveld een prettige marge. Je hebt tijd voor bagage, security, toilet en eventueel iets te eten.
+                  </p>
+                  <div class="tip">
+                    <strong>Tip:</strong> kijk op de ochtend zelf nog even naar terminal, gate-informatie en eventuele vertragingen.
+                  </div>
+                </div>
+
+                <div class="maps">
+                  <h4>Google Maps</h4>
+                  <a target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Roma+Termini&destination=Rome+Fiumicino+Airport&travelmode=transit">Route Termini → Fiumicino</a>
+                  <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Leonardo+Express+Roma+Termini">Leonardo Express Termini</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      Laatst bijgewerkt op basis van de nieuwe planning: Via Appia staat op vrijdag 1 mei.
+    </footer>
+  </div>
+
+  <a class="top-button" href="#top" aria-label="Terug naar boven">↑</a>
 </body>
 </html>
